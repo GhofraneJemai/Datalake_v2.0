@@ -182,6 +182,13 @@ h6,
         border-bottom: 1px solid rgba(256, 256, 256, .1);
         z-index: 999;
     }
+    /* Par défaut : image initiale */
+    #navbar-img {
+        content: url("../../assets/images/6.png");
+    }
+    .sticky-top #navbar-img {
+        content: url("../../assets/images/image.png");
+    }
     
     .sticky-top.navbar-dark {
         position: fixed;

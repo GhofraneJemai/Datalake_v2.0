@@ -37,6 +37,9 @@
             "styles": [
               "src/custom-theme.scss",
               "src/styles.css",
+              "src/assets/lib/owlcarousel/assets/owl.carousel.min.css",
+              "src/assets/lib/animate/animate.min.css",
+              "src/assets/css/style.css",
               "dist/datalake/browser/assets/css/bootstrap.min.css",
               "dist/datalake/browser/assets/css/style.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -56,7 +59,14 @@
               "dist/datalake/browser/assets/lib/owlcarousel/owl.carousel.js",
               "dist/datalake/browser/assets/lib/counterup/counterup.min.js",
               "dist/datalake/browser/assets/lib/easing/easing.min.js",
-              "dist/datalake/browser/assets/lib/easing/easing.js"
+              "dist/datalake/browser/assets/lib/easing/easing.js",
+              "src/assets/js/jquery.min.js",
+              "src/assets/lib/wow/wow.js",
+              "src/assets/lib/easing/easing.js",
+              "src/assets/lib/waypoints/waypoints.min.js",
+              "src/assets/lib/counterup/counterup.min.js",
+              "src/assets/lib/owlcarousel/owl.carousel.js" ,
+              "src/assets/js/main.js"  
               
             ]
           },
