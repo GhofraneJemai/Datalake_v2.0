@@ -5,6 +5,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/main/home/home.component';
 import { IndexComponent } from './components/index/index.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
+import { ServiceComponent } from './components/service/service.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,9 @@ const routes: Routes = [
   },
   {
     path: 'index', component: IndexComponent
+  },
+  {
+    path: 'service', component: ServiceComponent
   },
   {
     path: 'about-us', component: AboutUsComponent

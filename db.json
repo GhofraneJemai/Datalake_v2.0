@@ -23,6 +23,12 @@
       "fullName": "farah",
       "email": "farah@gmail.com",
       "password": "farah123"
+    },
+    {
+      "id": "e204",
+      "fullName": "ghofrane jemai",
+      "email": "ghofrane@gmail.com",
+      "password": "ghofrane123"
     }
   ],
   "employees": [

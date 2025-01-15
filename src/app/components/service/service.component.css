@@ -1,20 +1,53 @@
-.form-position {
-    margin: 0 auto;
-    position: relative;
-    margin-left: 450px; /* Décale légèrement vers la droite */
-}
 
   
-
-
-
+  .background {
+    position: absolute;
+    top: 20px;
+    left: 350px;
+    width: 600px;
+    height: 60px;
+    background-color: white;
+  }
+  .text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    font-weight: bold;
+    color: black;
+  }
+  mat-sidenav-container{
+    height: calc(205vh - 115vh);
+  }
+  mat-sidenav{
+    width: 200px;
+    background-color:rgb(92, 127, 177) ;
+  }  
+  .image2{
+    position: relative ;
+    left: 700px;
+    width: 500px;
+    position: fixed;
+  
+  
+  }
+  fieldset{
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    width: 500px;
+  
+  }
   .image{
     position: absolute;
     top: 20px;
     left: 0px;
     width: 200px;
   }
-
+  h4{
+    color:  #395aad;
+  }
   
   /********** Template CSS **********/
   :root {

@@ -42,8 +42,8 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
               <div class="navbar-nav ms-auto py-0">
                 <a href="index" class="nav-item nav-link ">Home</a>
-                      <a href="about-us"class="nav-item nav-link ">About</a>
-                      <a href="service" class="nav-item nav-link">Services</a>
+                    <a href="about-us"class="nav-item nav-link ">About</a>
+                    <a href="service" class="nav-item nav-link active">Services</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Blog</a>
                     <div class="dropdown-menu m-0">
@@ -63,17 +63,17 @@
                     </div>
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
-                <a href="login" class="btn btn-outline-light py-2 px-4 ms-3 active">Se connecter</a>
-                <a href="register" class="btn btn-outline-light py-2 px-4 ms-3 ">S'inscrire</a>
+                <a href="login" class="btn btn-outline-light py-2 px-4 ms-3 ">Se connecter</a>
+                <a href="register" class="btn btn-light py-2 px-4 ms-3">S'inscrire</a>
             </div>
         </nav>
         <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
           <div class="row py-5">
               <div class="col-12 pt-lg-5 mt-lg-5 text-center">
-                  <h1 class="display-4 text-white animated zoomIn">Se Connecter</h1>
+                  <h1 class="display-4 text-white animated zoomIn">Services</h1>
                   <a href="" class="h5 text-white">Home</a>
                   <i class="far fa-circle text-white px-2"></i>
-                  <a href="" class="h5 text-white">Se Connecter</a>
+                  <a href="" class="h5 text-white">Services</a>
               </div>
           </div>
       </div>
@@ -101,32 +101,175 @@
   
   
     
-     <!-- Section de Connexion -->
-<form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="form-position">
-    <p-card header="Connexion" [style]="{ width: '100%', maxWidth: '360px' }">
-        <div class="field">
-            <label for="email">Email</label>
-            <input type="text" pInputText formControlName="email" class="w-full" name="email" placeholder="Entrez votre email"/>
-            <small *ngIf="email.invalid && (email.dirty || email.touched)" class="block p-error">
-                <div *ngIf="email.errors?.['required']">L'email est requis.</div>
-                <div *ngIf="email.errors?.['email']">L'email doit être valide.</div>
-            </small>
+      
+    <!-- Service Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+                <h5 class="fw-bold text-primary text-uppercase">Nos Services</h5>
+                <h1 class="mb-0">Custom IT Solutions for Your Successful Business</h1>
+            </div>
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
+                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-shield-alt text-white"></i>
+                        </div>
+                        <h4 class="mb-3">Big Data</h4>
+                        <p class="m-0">Grâce à son expérience et celle de ses consultants (statisticiens, mathématiciens et data scientists), les clients bénéficient des « meilleures pratiques »</p>
+                        <a class="btn btn-lg btn-primary rounded" href="">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
+                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-chart-pie text-white"></i>
+                        </div>
+                        <h4 class="mb-3">Test & Validation</h4>
+                        <p class="m-0">Maitrisant les normes de la qualité logicielle, nos consultants QA et automaticiens des tests vous accompagnent tout au long du processus de création de vos produits (validation ... )</p>
+                        <a class="btn btn-lg btn-primary rounded" href="">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.9s">
+                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-code text-white"></i>
+                        </div>
+                        <h4 class="mb-3">DevOps</h4>
+                        <p class="m-0">DevOps ambitionne de combler cet écart et de favoriser au maximum les échanges entre les développeurs (Dev) et les équipes d’exploitation (Ops). Les projets sont alors développés en accord avec les attentes des exploitants.</p>
+                        <a class="btn btn-lg btn-primary rounded" href="">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.3s">
+                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fab fa-android text-white"></i>
+                        </div>
+                        <h4 class="mb-3">Développement </h4>
+                        <p class="m-0">Notre expertise en Développement est au service de vos spécificités. Datalake vous accompagne dans la réalisation et dans le développement de logiciels sur mesure.</p>
+                        <a class="btn btn-lg btn-primary rounded" href="">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
+                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-search text-white"></i>
+                        </div>
+                        <h4 class="mb-3">Infrastructure (DBA, Cloud)</h4>
+                        <p class="m-0">Nous mettons au service de nos clients notre retour d’expérience et notre expertise afin de les accompagner et garantir le succès de leurs projets.</p>
+                        <a class="btn btn-lg btn-primary rounded" href="">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow zoomIn" data-wow-delay="0.6s">
+                    <div class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="service-icon">
+                            <i class="fa fa-search text-white"></i>
+                        </div>
+                        <h4 class="mb-3">ITSM </h4>
+                        <p class="m-0">En choisissant Datalake, vous obtiendrez une société à taille humaine qui se distingue par une forte indépendance technologique et financière concernant le déploiement de</p>
+                        <a class="btn btn-lg btn-primary rounded" href="">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="field">
-            <label for="password">Mot de passe</label>
-            <input type="password" pInputText formControlName="password" class="w-full" name="password" placeholder="Entrez votre mot de passe"/>
-            <small *ngIf="password.invalid && (password.dirty || password.touched)" class="block p-error">
-                <div *ngIf="password.errors?.['required']">Le mot de passe est requis.</div>
-            </small>
+    </div>
+    <!-- Service End -->
+
+  
+    
+  <!-- Testimonial Start -->
+  <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="section-title text-center position-relative pb-3 mb-4 mx-auto" style="max-width: 600px;">
+            <h5 class="fw-bold text-primary text-uppercase">Testimonial</h5>
+            <h1 class="mb-0">What Our Clients Say About Our Digital Services</h1>
         </div>
-        <p-button label="SE CONNECTER" styleClass="w-full" [disabled]="loginForm.invalid" type="submit"></p-button>
-        <div class="mt-2">
-            Pas encore membre ? <a [routerLink]="['../register']">Inscrivez-vous</a>
+        <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
+            <div class="testimonial-item bg-light my-4">
+                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
+                    <img class="img-fluid rounded" src="../../../assets/img/testimonial-1.jpg" style="width: 60px; height: 60px;" >
+                    <div class="ps-4">
+                        <h4 class="text-primary mb-1">Client Name</h4>
+                        <small class="text-uppercase">Profession</small>
+                    </div>
+                </div>
+                <div class="pt-4 pb-5 px-5">
+                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                </div>
+            </div>
+            <div class="testimonial-item bg-light my-4">
+                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
+                    <img class="img-fluid rounded" src="../../../assets/img/testimonial-2.jpg" style="width: 60px; height: 60px;" >
+                    <div class="ps-4">
+                        <h4 class="text-primary mb-1">Client Name</h4>
+                        <small class="text-uppercase">Profession</small>
+                    </div>
+                </div>
+                <div class="pt-4 pb-5 px-5">
+                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                </div>
+            </div>
+            <div class="testimonial-item bg-light my-4">
+                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
+                    <img class="img-fluid rounded" src="../../../assets/img/testimonial-3.jpg" style="width: 60px; height: 60px;" >
+                    <div class="ps-4">
+                        <h4 class="text-primary mb-1">Client Name</h4>
+                        <small class="text-uppercase">Profession</small>
+                    </div>
+                </div>
+                <div class="pt-4 pb-5 px-5">
+                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                </div>
+            </div>
+            <div class="testimonial-item bg-light my-4">
+                <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
+                    <img class="img-fluid rounded" src="../../../assets/img/testimonial-4.jpg" style="width: 60px; height: 60px;" >
+                    <div class="ps-4">
+                        <h4 class="text-primary mb-1">Client Name</h4>
+                        <small class="text-uppercase">Profession</small>
+                    </div>
+                </div>
+                <div class="pt-4 pb-5 px-5">
+                    Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                </div>
+            </div>
         </div>
-    </p-card>
-</form>
+    </div>
+</div>
+<!-- Testimonial End -->
 
 
+    <!-- Vendor Start -->
+    <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
+      <div class="container py-5 mb-5">
+          <div class="bg-white">
+              <div class="owl-carousel vendor-carousel">
+                  <img src="../../../assets/img/vendor-1.jpg" alt="">
+                  <img src="../../../assets/img/vendor-2.jpg" alt="">
+                  <img src="../../../assets/img/vendor-3.jpg" alt="">
+                  <img src="../../../assets/img/vendor-4.jpg" alt="">
+                  <img src="../../../assets/img/vendor-5.jpg" alt="">
+                  <img src="../../../assets/img/vendor-6.jpg" alt="">
+                  <img src="../../../assets/img/vendor-7.jpg" alt="">
+                  <img src="../../../assets/img/vendor-8.jpg" alt="">
+                  <img src="../../../assets/img/vendor-9.jpg" alt="">
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Vendor End -->
   
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">

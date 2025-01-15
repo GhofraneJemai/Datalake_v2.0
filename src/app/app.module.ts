@@ -43,6 +43,7 @@ import { MatSortModule } from '@angular/material/sort';
 
 
 import {FormsModule} from '@angular/forms';
+import { ServiceComponent } from './components/service/service.component';
 
 
 
@@ -55,7 +56,8 @@ import {FormsModule} from '@angular/forms';
     HomeComponent,
     AboutUsComponent,
     IndexComponent,
-    EmpAddEditComponent ,
+    EmpAddEditComponent,
+    ServiceComponent ,
   ],
   imports: [
     BrowserModule,
