@@ -1,0 +1,43 @@
+<div mat-dialog-title>
+    <h1>Formulaire de l'Offre d'Emploi</h1>
+</div>
+<form [formGroup]="jobPostForm" (ngSubmit)="onFormSubmit()">
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Titre</mat-label>
+                <input matInput type="text" placeholder="Ex. Développeur Java" formControlName="title">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <input matInput placeholder="Ex. Développeur Java pour projet innovant" formControlName="description">
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Localisation</mat-label>
+                <input matInput placeholder="Ex. Paris" formControlName="location">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Exigences</mat-label>
+                <input matInput placeholder="Ex. 5 ans d'expérience" formControlName="requirements">
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Date de publication</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="postedAt">
+                <mat-hint>MM/JJ/AAAA</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Annuler</button>
+        <button mat-raised-button color="primary" type="submit">{{data ? 'Mettre à jour' : 'Enregistrer'}}</button>
+    </div>
+</form>

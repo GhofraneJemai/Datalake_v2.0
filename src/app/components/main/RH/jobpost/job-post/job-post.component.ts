@@ -1,28 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EmpAddEditComponent } from '../emp-add-edit/emp-add-edit.component';
-import { EmployeeService } from '../../../services/employee.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CoreService } from '../../../core/core.service';
+import { CoreService } from '../../../../../core/core.service';
+import { JobPostService } from '../../../../../services/job-post.service';
+import { JobPostAddEditComponent } from '../job-post-add-edit/job-post-add-edit.component';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 
-
-@Component({ selector: 'app-home', templateUrl: './home.component.html', styleUrl: './home.component.css' }) 
-export class HomeComponent implements OnInit{
-  opened=false;
+@Component({
+  selector: 'app-job-post',
+  templateUrl: './job-post.component.html',
+  styleUrl: './job-post.component.css'
+})
+export class JobPostComponent implements OnInit {
+  opened = false;
   displayedColumns: string[] = [
     'id',
-    'firstName',
-    'lastName',
-    'email',
-    'dob',
-    'gender',
-    'education',
-    'company',
-    'experience',
-    'package',
-    'action',
+    'title',
+    'description',
+    'location',
+    'requirements',
+    'postedAt',
+    'action'
   ];
   dataSource!: MatTableDataSource<any>;
 
@@ -31,27 +31,27 @@ export class HomeComponent implements OnInit{
 
   constructor(
     private _dialog: MatDialog,
-    private _empService: EmployeeService,
-    private _coreService: CoreService,
+    private _jobPostService: JobPostService,
+    private _coreService: CoreService
   ) {}
 
   ngOnInit(): void {
-    this.getEmployeeList();
+    this.getJobPostList();
   }
 
-  openAddEditEmpForm() {
-    const dialogRef = this._dialog.open(EmpAddEditComponent);
+  openAddEditJobPostForm() {
+    const dialogRef = this._dialog.open(JobPostAddEditComponent);
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
-          this.getEmployeeList();
+          this.getJobPostList();
         }
       },
     });
   }
 
-  getEmployeeList() {
-    this._empService.getEmployeeList().subscribe({
+  getJobPostList() {
+    this._jobPostService.getJobPostList().subscribe({
       next: (res) => {
         this.dataSource = new MatTableDataSource(res);
         this.dataSource.sort = this.sort;
@@ -70,25 +70,25 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  deleteEmployee(id: number) {
-    this._empService.deleteEmployee(id).subscribe({
+  deleteJobPost(id: number) {
+    this._jobPostService.deleteJobPost(id).subscribe({
       next: (res) => {
-        this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
+        this._coreService.openSnackBar('Job post deleted!', 'done');
+        this.getJobPostList();
       },
       error: console.log,
     });
   }
 
   openEditForm(data: any) {
-    const dialogRef = this._dialog.open(EmpAddEditComponent, {
+    const dialogRef = this._dialog.open(JobPostAddEditComponent, {
       data,
     });
 
     dialogRef.afterClosed().subscribe({
       next: (val) => {
         if (val) {
-          this.getEmployeeList();
+          this.getJobPostList();
         }
       },
     });

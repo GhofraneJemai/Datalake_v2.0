@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { HomeComponent } from './components/main/home/home.component';
+import { HomeComponent } from './components/main/RH/employe/home/home.component';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +27,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
-import { EmpAddEditComponent } from './components/main/emp-add-edit/emp-add-edit.component';
+import { EmpAddEditComponent } from './components/main/RH/employe/emp-add-edit/emp-add-edit.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 
@@ -44,6 +44,10 @@ import { MatSortModule } from '@angular/material/sort';
 
 import {FormsModule} from '@angular/forms';
 import { ServiceComponent } from './components/service/service.component';
+import { JobPostComponent } from './components/main/RH/jobpost/job-post/job-post.component';
+import { JobPostAddEditComponent } from './components/main/RH/jobpost/job-post-add-edit/job-post-add-edit.component';
+import { CandidateJobPostsComponent } from './components/main/candidat/candidate-job-posts/candidate-job-posts.component';
+import { JobDetailsComponent } from './components/main/candidat/job-details/job-details.component';
 
 
 
@@ -57,7 +61,11 @@ import { ServiceComponent } from './components/service/service.component';
     AboutUsComponent,
     IndexComponent,
     EmpAddEditComponent,
-    ServiceComponent ,
+    ServiceComponent,
+    JobPostComponent,
+    JobPostAddEditComponent,
+    CandidateJobPostsComponent,
+    JobDetailsComponent,
   ],
   imports: [
     BrowserModule,
