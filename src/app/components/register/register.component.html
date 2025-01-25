@@ -102,28 +102,51 @@
 
   
    <!-- Section de Connexion -->
-   <form [formGroup]="registerForm" (ngSubmit)="submitDetails()" class="form-position"> 
+   <!-- Section de Connexion -->
+<form [formGroup]="registerForm" (ngSubmit)="submitDetails()" class="form-position">
     <p-card header="Inscription" [style]="{ width: '100%', maxWidth: '360px' }">
       
       <!-- Champ Nom complet -->
-      <div class="field">
-        <label for="fullName">Nom complet</label>
-        <input
-          type="text"
-          pInputText
-          formControlName="fullName"
-          class="w-full"
-          name="fullName"
-          placeholder="Entrez votre nom complet"
-        />
-        <small
-          *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)"
-          class="block p-error"
-        >
-          <div *ngIf="fullName.errors?.['required']">Le nom est obligatoire.</div>
-          <div *ngIf="fullName.errors?.['pattern']">Veuillez entrer un nom valide.</div>
-        </small>
-      </div>
+      <!-- Champ Prénom -->
+<div class="field">
+    <label for="firstName">Prénom</label>
+    <input
+      type="text"
+      pInputText
+      formControlName="firstName"
+      class="w-full"
+      name="firstName"
+      placeholder="Entrez votre prénom"
+    />
+    <small
+      *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+      class="block p-error"
+    >
+      <div *ngIf="firstName.errors?.['required']">Le prénom est obligatoire.</div>
+      <div *ngIf="firstName.errors?.['pattern']">Veuillez entrer un prénom valide.</div>
+    </small>
+  </div>
+  
+  <!-- Champ Nom -->
+  <div class="field">
+    <label for="lastName">Nom</label>
+    <input
+      type="text"
+      pInputText
+      formControlName="lastName"
+      class="w-full"
+      name="lastName"
+      placeholder="Entrez votre nom"
+    />
+    <small
+      *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+      class="block p-error"
+    >
+      <div *ngIf="lastName.errors?.['required']">Le nom est obligatoire.</div>
+      <div *ngIf="lastName.errors?.['pattern']">Veuillez entrer un nom valide.</div>
+    </small>
+  </div>
+  
   
       <!-- Champ Email -->
       <div class="field">
@@ -206,6 +229,7 @@
   
     </p-card>
   </form>
+  
   
 
 

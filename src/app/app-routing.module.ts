@@ -9,26 +9,40 @@ import { ServiceComponent } from './components/service/service.component';
 import { JobPostComponent } from './components/main/RH/jobpost/job-post/job-post.component';
 import { CandidateJobPostsComponent } from './components/main/candidat/candidate-job-posts/candidate-job-posts.component';
 import { JobDetailsComponent } from './components/main/candidat/job-details/job-details.component';
+import { MyApplicationsComponent } from './components/main/candidat/my-applications/my-applications.component';
+import { JobApplicationsComponent } from './components/main/RH/job-applications/job-applications.component';
+import { RoleGuard } from './guards/auth.guard';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 const routes: Routes = [
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [RoleGuard],data: { expectedRole: 'ADMIN' }
   },
   {
     path: 'jobpost',
-    component: JobPostComponent
+    component: JobPostComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRole: 'ADMIN' }
   },
   {
     path: 'candidat-jobpost',
-    component: CandidateJobPostsComponent
+    component: CandidateJobPostsComponent,
+    canActivate: [RoleGuard],data: { expectedRole: 'CANDIDATE' }
   },
   {
-    path: 'job-details',
-    component: JobDetailsComponent
+    path: 'candidat-applications',
+    component: MyApplicationsComponent,
+    canActivate: [RoleGuard],data: { expectedRole: 'CANDIDATE' }
   },
   {
-    path:'', redirectTo:'index',pathMatch:'full'
+    path: 'job-applications',
+    component: JobApplicationsComponent,
+    canActivate: [RoleGuard],data: { expectedRole: 'ADMIN' }
+  },
+  { path: 'job-details/:id', component: JobDetailsComponent
+  
   },
   {
     path: 'index', component: IndexComponent
@@ -45,7 +59,13 @@ const routes: Routes = [
   {
     path: 'register', component: RegisterComponent
   },
-
+  {
+    path: 'forbidden', component: ForbiddenComponent
+  },
+  {
+    path:'**', redirectTo:'index',pathMatch:'full'
+  }
+  
 ];
 
 @NgModule({

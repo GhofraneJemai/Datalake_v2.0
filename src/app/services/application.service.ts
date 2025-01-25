@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Application } from '../interfaces/application.model';
 
 
@@ -8,7 +8,7 @@ import { Application } from '../interfaces/application.model';
   providedIn: 'root',
 })
 export class ApplicationService {
-  private apiUrl = 'http://localhost:8080/api/applications'; // Change to your backend API URL
+  private apiUrl = 'http://localhost:8090/datalake/api/applications'; // Change to your backend API URL
 
   constructor(private http: HttpClient) {}
 
@@ -26,9 +26,18 @@ export class ApplicationService {
     }
     formData.append('coverLetter', coverLetter);
     formData.append('cvFile', cvFile, cvFile.name);
-
-    return this.http.post<string>(`${this.apiUrl}/apply`, formData);
+  
+    return this.http.post(`${this.apiUrl}/apply`, formData, { responseType: 'text' }).pipe(
+      catchError((error) => {
+        console.error('Error in applyForJob:', error);
+        return throwError(() => error);
+      })
+    );
   }
+  getApplications(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/applications`);
+  }
+  
 
   // Method to get all applications
   getAllApplications(): Observable<Application[]> {
@@ -41,17 +50,20 @@ export class ApplicationService {
   }
 
   // Method to update application status
-  updateApplicationStatus(
-    id: number,
-    status: string,
-    recruitmentDate: string
-  ): Observable<Application> {
-    const params = new HttpParams()
-      .set('status', status)
-      .set('recruitmentDate', recruitmentDate);
-
-    return this.http.put<Application>(`${this.apiUrl}/${id}/status`, null, {
-      params: params,
-    });
+  updateApplicationStatus(id: number, status: string, recruitmentDate: string | null): Observable<Application> {
+    const params = { status, recruitmentDate };
+    return this.http.put<Application>(`${this.apiUrl}/${id}/status`, params);
+  }
+  getApplicationsByCandidateId(candidateId: number): Observable<Application[]> {
+    const params = new HttpParams().set('candidateId', candidateId.toString());
+    return this.http.get<Application[]>(`${this.apiUrl}/by-candidate`, { params }).pipe(
+      catchError((error) => {
+        console.error('Error in getApplicationsByCandidateId:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+  getApplicationsGroupedByJobPost(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/grouped-by-job-post`);
   }
 }

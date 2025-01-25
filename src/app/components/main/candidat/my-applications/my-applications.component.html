@@ -69,10 +69,10 @@
         <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
           <div class="row py-5">
               <div class="col-12 pt-lg-5 mt-lg-5 text-center">
-                  <h1 class="display-4 text-white animated zoomIn">Job Opportunities</h1>
+                  <h1 class="display-4 text-white animated zoomIn">My Applications</h1>
                   <a href="" class="h5 text-white">Home</a>
                   <i class="far fa-circle text-white px-2"></i>
-                  <a href="" class="h5 text-white">Job Opportunities</a>
+                  <a href="" class="h5 text-white">My Applications</a>
               </div>
           </div>
       </div>
@@ -98,42 +98,35 @@
     </div>
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container py-5">
-        <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
-            <h5 class="fw-bold text-primary text-uppercase">Job Opportunities</h5>
-            <h1 class="mb-0">Explore Our Latest Job Openings</h1>
-        </div>
-        
-        <div class="row g-5">
-            <div
-                *ngFor="let jobPost of jobPosts"
-                class="col-lg-4 col-md-6 wow zoomIn"
-                data-wow-delay="0.3s"
-            >
-                <div
-                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center"
-                >
-                    <div class="service-icon">
-                        <i class="fa fa-briefcase text-white"></i>
-                    </div>
-                    <h4 class="mb-3">{{ jobPost.title }}</h4>
-                    <p><strong>Location:</strong> {{ jobPost.location }}</p>
-                    <p><strong>Posted Date:</strong> {{ jobPost.postedAt| date }}</p>
-                    <p class="m-0">{{ jobPost.description }}</p>
-                    <a (click)="openJobDetails(jobPost.id)">
-                        <button class="btn btn-lg btn-primary rounded">
-                            <i class="bi bi-arrow-right"></i> Apply Now
-                        </button>
-                    </a>
-                    
-                    
-                    
-                      
-                </div>
+      <div class="section-title text-center position-relative pb-3 mb-5 mx-auto" style="max-width: 600px;">
+        <h5 class="fw-bold text-primary text-uppercase">My Applications</h5>
+        <h1 class="mb-0">Track Your Job Applications</h1>
+      </div>
+      <div *ngIf="applications.length === 0" class="text-center">
+        <h4 class="text-muted">No applications found.</h4>
+      </div>
+      <div class="row g-5" *ngIf="applications.length > 0">
+        <div
+          *ngFor="let application of applications"
+          class="col-lg-4 col-md-6 wow zoomIn"
+          data-wow-delay="0.3s"
+        >
+          <div
+            class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center p-4"
+          >
+            <div class="service-icon mb-3">
+              <i class="fa fa-briefcase text-white"></i>
             </div>
+            <h4 class="mb-3">{{ application.jobPost.title }}</h4>
+            <p><strong>Company:</strong> {{ application.jobPost.description }}</p>
+            <p><strong>Status:</strong> {{ application.status }}</p>
+            <p><strong>Applied On:</strong> {{ application.createdAt| date }}</p>
+          </div>
         </div>
+      </div>
     </div>
-</div>
- <!-- Footer Start -->
+  </div>
+   <!-- Footer Start -->
  <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
         <div class="row gx-5">

@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CoreService } from '../../../../../core/core.service';
+import { AuthService } from '../../../../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +36,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private _dialog: MatDialog,
     private _empService: EmployeeService,
-    private _coreService: CoreService
+    private _coreService: CoreService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -100,5 +102,8 @@ export class HomeComponent implements OnInit {
         }
       },
     });
+  }
+  onLogout() {
+    this.authService.logout();
   }
 }

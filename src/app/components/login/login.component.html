@@ -64,7 +64,7 @@
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
                 <a href="login" class="btn btn-outline-light py-2 px-4 ms-3 active">Se connecter</a>
-                <a href="register" class="btn btn-outline-light py-2 px-4 ms-3 ">S'inscrire</a>
+                <a href="register" class="btn btn-outline-light py-2 px-4 ms-3 active">S'inscrire</a>
             </div>
         </nav>
         <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
@@ -102,7 +102,7 @@
   
     
      <!-- Section de Connexion -->
-<form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="form-position">
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="form-position">
     <p-card header="Connexion" [style]="{ width: '100%', maxWidth: '360px' }">
         <div class="field">
             <label for="email">Email</label>

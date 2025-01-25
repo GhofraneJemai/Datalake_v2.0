@@ -7,6 +7,7 @@ import { CoreService } from '../../../../../core/core.service';
 import { JobPostService } from '../../../../../services/job-post.service';
 import { JobPostAddEditComponent } from '../job-post-add-edit/job-post-add-edit.component';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { AuthService } from '../../../../../services/auth.service';
 
 @Component({
   selector: 'app-job-post',
@@ -32,7 +33,8 @@ export class JobPostComponent implements OnInit {
   constructor(
     private _dialog: MatDialog,
     private _jobPostService: JobPostService,
-    private _coreService: CoreService
+    private _coreService: CoreService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -92,5 +94,8 @@ export class JobPostComponent implements OnInit {
         }
       },
     });
+  }
+  onLogout() {
+    this.authService.logout();
   }
 }

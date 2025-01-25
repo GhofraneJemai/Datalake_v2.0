@@ -3,6 +3,7 @@ import { JobPost } from '../../../../interfaces/jobpost.model';
 import { JobPostService } from '../../../../services/job-post.service';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-candidate-job-posts',
@@ -14,7 +15,7 @@ export class CandidateJobPostsComponent implements OnInit {
   selectedJobPost: JobPost | null = null;
   
 
-  constructor(private jobPostService: JobPostService,
+  constructor(private jobPostService: JobPostService,private authService: AuthService,
     private _dialog: MatDialog ) {}
 
   ngOnInit(): void {
@@ -40,7 +41,8 @@ export class CandidateJobPostsComponent implements OnInit {
   openJobDetails(jobPostId: number) {
     // Open the JobDetailsComponent in a dialog and pass the jobPostId
     const dialogRef = this._dialog.open(JobDetailsComponent, {
-      data: { jobPostId }  // Pass the jobPostId to the JobDetailsComponent
+      data: { jobPostId ,closeDialog: () => dialogRef.close() }  // Pass the jobPostId to the JobDetailsComponent
+      
     });
 
     dialogRef.afterClosed().subscribe({
@@ -51,6 +53,8 @@ export class CandidateJobPostsComponent implements OnInit {
       },
     });
   }
-  
+  onLogout() {
+    this.authService.logout();
+  }
   
 }

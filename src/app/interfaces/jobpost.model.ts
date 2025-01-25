@@ -1,3 +1,5 @@
+import { Application } from "./application.model";
+
 export interface JobPost {
     id: number;
     title: string;
@@ -5,5 +7,6 @@ export interface JobPost {
     location: string;
     requirements: string;// Assuming you have an Application interface
     postedAt: string; // Use ISO string for LocalDateTime
+    applications: Application[];
   }
   

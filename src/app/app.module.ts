@@ -48,6 +48,9 @@ import { JobPostComponent } from './components/main/RH/jobpost/job-post/job-post
 import { JobPostAddEditComponent } from './components/main/RH/jobpost/job-post-add-edit/job-post-add-edit.component';
 import { CandidateJobPostsComponent } from './components/main/candidat/candidate-job-posts/candidate-job-posts.component';
 import { JobDetailsComponent } from './components/main/candidat/job-details/job-details.component';
+import { MyApplicationsComponent } from './components/main/candidat/my-applications/my-applications.component';
+import { JobApplicationsComponent } from './components/main/RH/job-applications/job-applications.component';
+import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 
 
 
@@ -66,6 +69,9 @@ import { JobDetailsComponent } from './components/main/candidat/job-details/job-
     JobPostAddEditComponent,
     CandidateJobPostsComponent,
     JobDetailsComponent,
+    MyApplicationsComponent,
+    JobApplicationsComponent,
+    ForbiddenComponent,
   ],
   imports: [
     BrowserModule,

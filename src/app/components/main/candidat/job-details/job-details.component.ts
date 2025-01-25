@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JobPostService } from '../../../../services/job-post.service';
 import { ApplicationService } from '../../../../services/application.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';  // Import necessary modules
 
 @Component({
   selector: 'app-job-details',
@@ -14,27 +16,59 @@ export class JobDetailsComponent implements OnInit {
   applicationData: any;
   coverLetter: string = '';
   cvFile: File | null = null;
-  candidateId!: number; 
+  candidateId!: number;
+
+  // Declare the form group
+  applyForm!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
-    private jobPostService: JobPostService,  // Injection of the JobPost service
-    private applicationService: ApplicationService  // Injection of the Application service
+    @Inject(MAT_DIALOG_DATA) public data: { jobPostId: number; closeDialog?: () => void }, 
+    private jobPostService: JobPostService,
+    private applicationService: ApplicationService,
+    private fb: FormBuilder  // Inject FormBuilder
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.jobPostId = id ? +id : 1;  // If 'id' is null, set jobPostId to 0
-    this.loadJobDetails();  // Load the job details
-    this.loadApplicationDetails();  // Optionally load application details if necessary
+    if (this.data?.jobPostId) {
+      this.jobPostId = this.data.jobPostId;
+      console.log('JobPost ID from dialog data:', this.jobPostId);
+    } else {
+      const id = this.route.snapshot.paramMap.get('id');
+      this.jobPostId = id ? +id : 0;
+      console.log('JobPost ID from route:', this.jobPostId);
+    }
+
+    if (this.jobPostId) {
+      this.loadJobDetails();
+      this.loadApplicationDetails();
+      this.initializeForm(); // Initialize the form once job details are loaded
+    } else {
+      console.error('JobPost ID is missing.');
+    }
   }
-  
+
+  // Initialize the form with default values
+  initializeForm() {
+    this.applyForm = this.fb.group({
+      description: [{ value: this.selectedJobPost?.description, disabled: true }],
+      location: [{ value: this.selectedJobPost?.location, disabled: true }],
+      requirements: [{ value: this.selectedJobPost?.requirements, disabled: true }],
+      candidateId: [null, Validators.required],
+      coverLetter: ['', Validators.required],
+      cvFile: [null, Validators.required],
+    });
+  }
 
   loadJobDetails() {
-    // Using the JobPost service to load the job details
     this.jobPostService.getJobPostById(this.jobPostId).subscribe(
       (data) => {
         this.selectedJobPost = data;
+        this.applyForm.patchValue({
+          description: data.description,
+          location: data.location,
+          requirements: data.requirements,
+        });
       },
       (error) => {
         console.error('Error loading job details:', error);
@@ -43,7 +77,6 @@ export class JobDetailsComponent implements OnInit {
   }
 
   loadApplicationDetails() {
-    // Optionally, retrieve application details if needed
     this.applicationService.getApplicationById(this.jobPostId).subscribe(
       (data) => {
         this.applicationData = data;
@@ -54,17 +87,32 @@ export class JobDetailsComponent implements OnInit {
     );
   }
 
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input?.files && input.files.length > 0) {
+      this.cvFile = input.files[0];
+      console.log('Selected file:', this.cvFile.name);
+    } else {
+      this.cvFile = null;
+      console.error('No file selected');
+    }
+  }
+
   onSubmit() {
     if (!this.cvFile) {
       console.error('Please select a CV file to submit');
       return;
     }
 
-    // Submit the job application using the ApplicationService
+    if (this.applyForm.invalid) {
+      console.error('Form is invalid');
+      return;
+    }
+
     this.applicationService.applyForJob(
-      this.candidateId,
+      this.applyForm.value.candidateId,
       this.jobPostId,
-      this.coverLetter,
+      this.applyForm.value.coverLetter,
       this.cvFile
     ).subscribe(
       (response) => {
@@ -75,12 +123,10 @@ export class JobDetailsComponent implements OnInit {
       }
     );
   }
-  onFileChange(event: any) {
-    // Handle file change (e.g., for uploading a CV)
-    const file = event.target.files[0];
-    if (file) {
-      console.log('Selected file:', file.name);
-      // Logic for handling file upload can be added here if needed
+
+  onCancel(): void {
+    if (this.data.closeDialog) {
+      this.data.closeDialog();
     }
   }
 }

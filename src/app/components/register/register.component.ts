@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { passwordMatchValidator } from '../../shared/password-match.directive';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/auth';
+import { Role } from '../../interfaces/user.model';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -14,23 +15,29 @@ export class RegisterComponent {
   opened=false;
 
   registerForm = this.fb.group({
-    fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/)]],
+    firstName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
+    lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(6)]], // Password should be at least 6 characters
     confirmPassword: ['', Validators.required]
   }, {
-    validators: passwordMatchValidator
-  })
+    validators: this.passwordMatchValidator
+  });
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) {}
 
-  get fullName() {
-    return this.registerForm.controls['fullName'];
+  // Getter methods for form fields to easily access in the template
+  get firstName() {
+    return this.registerForm.controls['firstName'];
+  }
+
+  get lastName() {
+    return this.registerForm.controls['lastName'];
   }
 
   get email() {
@@ -45,19 +52,41 @@ export class RegisterComponent {
     return this.registerForm.controls['confirmPassword'];
   }
 
-  submitDetails() {
-    const postData = { ...this.registerForm.value };
-    delete postData.confirmPassword;
-    this.authService.registerUser(postData as User).subscribe(
-      response => {
-        console.log(response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Register successfully' });
-        this.router.navigate(['login'])
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong' });
-      }
-    )
+  // Custom validator to check if the password and confirmPassword match
+  passwordMatchValidator(group: any) {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
   }
+
+  // Method to handle form submission
+  submitDetails() {
+    if (this.registerForm.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Form is invalid. Please correct the errors.' });
+      return;
+    }
+  
+    const postData = {
+      firstName: this.firstName.value!,
+      lastName: this.lastName.value!,
+      email: this.email.value!,
+      password: this.password.value!,
+      role: Role.CANDIDATE
+    };
+  
+    this.authService.registerUser(postData).subscribe(
+      (response) => {
+        console.log('Success response:', response); // Log the successful response
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: response });  // Should be "User registered successfully"
+        window.location.href = '/login';
+      },
+      (error) => {
+        console.error('Error response:', error);  // Log the error response
+        const errorMessage = error?.error?.message || error?.message || 'Registration failed';
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+      }
+    );
+  }
+  
 
 }
