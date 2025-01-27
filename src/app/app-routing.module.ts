@@ -13,6 +13,8 @@ import { MyApplicationsComponent } from './components/main/candidat/my-applicati
 import { JobApplicationsComponent } from './components/main/RH/job-applications/job-applications.component';
 import { RoleGuard } from './guards/auth.guard';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { HomePageCandidateComponent } from './components/main/home-page-candidate/home-page-candidate.component';
+import { HomePageAdminComponent } from './components/main/home-page-admin/home-page-admin.component';
 
 const routes: Routes = [
   {
@@ -46,6 +48,12 @@ const routes: Routes = [
   },
   {
     path: 'index', component: IndexComponent
+  },
+  {
+    path: 'home-candidat', component: HomePageCandidateComponent
+  },
+  {
+    path: 'home-admin', component: HomePageAdminComponent
   },
   {
     path: 'service', component: ServiceComponent

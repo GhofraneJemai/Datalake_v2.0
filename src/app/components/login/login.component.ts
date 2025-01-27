@@ -60,9 +60,9 @@ export class LoginComponent {
           const role = this.extractRole(token);
 
           if (role === 'CANDIDATE') {
-            window.location.href = '/candidat-applications';
+            window.location.href = '/home-candidat';
         } else if (role === 'ADMIN') {
-            window.location.href = '/job-applications';
+            window.location.href = '/home-admin';
         }
          else {
             throw new Error('Role not recognized');

@@ -51,6 +51,8 @@ import { JobDetailsComponent } from './components/main/candidat/job-details/job-
 import { MyApplicationsComponent } from './components/main/candidat/my-applications/my-applications.component';
 import { JobApplicationsComponent } from './components/main/RH/job-applications/job-applications.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
+import { HomePageCandidateComponent } from './components/main/home-page-candidate/home-page-candidate.component';
+import { HomePageAdminComponent } from './components/main/home-page-admin/home-page-admin.component';
 
 
 
@@ -72,6 +74,8 @@ import { ForbiddenComponent } from './components/forbidden/forbidden.component';
     MyApplicationsComponent,
     JobApplicationsComponent,
     ForbiddenComponent,
+    HomePageCandidateComponent,
+    HomePageAdminComponent,
   ],
   imports: [
     BrowserModule,

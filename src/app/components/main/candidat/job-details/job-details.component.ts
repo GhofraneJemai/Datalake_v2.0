@@ -51,14 +51,12 @@ export class JobDetailsComponent implements OnInit {
   // Initialize the form with default values
   initializeForm() {
     this.applyForm = this.fb.group({
-      description: [{ value: this.selectedJobPost?.description, disabled: true }],
-      location: [{ value: this.selectedJobPost?.location, disabled: true }],
-      requirements: [{ value: this.selectedJobPost?.requirements, disabled: true }],
       candidateId: [null, Validators.required],
       coverLetter: ['', Validators.required],
-      cvFile: [null, Validators.required],
+      cvFile: [null, Validators.required]
     });
   }
+  
 
   loadJobDetails() {
     this.jobPostService.getJobPostById(this.jobPostId).subscribe(
