@@ -41,41 +41,24 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-              <a href="index" class="nav-item nav-link ">Home</a>
-                    <a href="about-us"class="nav-item nav-link ">About</a>
-                    <a href="service" class="nav-item nav-link">Services</a>
-              <div class="nav-item dropdown">
-                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Blog</a>
-                  <div class="dropdown-menu m-0">
-                      <a href="blog.html" class="dropdown-item">Blog Grid</a>
-                      <a href="detail.html" class="dropdown-item">Blog Detail</a>
-                  </div>
-              </div>
-                  <div class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                      <div class="dropdown-menu m-0">
-                          <a href="price.html" class="dropdown-item">Pricing Plan</a>
-                          <a href="feature.html" class="dropdown-item">Our features</a>
-                          <a href="team.html" class="dropdown-item">Team Members</a>
-                          <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                          <a href="quote.html" class="dropdown-item">Free Quote</a>
-                      </div>
-                  </div>
-                  <a href="contact.html" class="nav-item nav-link">Contact</a>
-              </div>
+              <a href="/home-admin" class="nav-item nav-link">Home</a>
+              <a href="job-applications" class="nav-item nav-link">les candidatures</a>
+              <a href="jobpost" class="nav-item nav-link">les offres d'emploi</a>
+              <a href="home" class="nav-item nav-link active"> les employés</a>
+      </div>
               <a href="login" (click)="onLogout()" class="btn btn-outline-light py-2 px-4 ms-3 active ">Se deconnecter</a>
               <button class="btn btn-outline-light py-2 px-4 ms-3 active " (click)="openAddEditEmpForm()">
-                ADD EMPLOYEE
+                AJOUTER UN EMPLOYÉ
               </button>
           </div>
       </nav>
       <div class="container-fluid bg-primary py-5 bg-header" style="margin-bottom: 90px;">
         <div class="row py-5">
             <div class="col-12 pt-lg-5 mt-lg-5 text-center">
-                <h1 class="display-4 text-white animated zoomIn">Employé</h1>
+                <h1 class="display-4 text-white animated zoomIn">Gérer les employés</h1>
                 <a href="" class="h5 text-white">Home</a>
                 <i class="far fa-circle text-white px-2"></i>
-                <a href="" class="h5 text-white">Employé</a>
+                <a href="" class="h5 text-white">Les employés</a>
             </div>
         </div>
     </div>
@@ -100,107 +83,107 @@
       </div>
   </div>
   <!-- Full Screen Search End -->
-<mat-sidenav-container >
-  <mat-sidenav [(opened)]="opened" mode="side">
-
-    <mat-list>
-        <mat-list-item [routerLink]="['../index']">Home</mat-list-item>
-        <mat-list-item [routerLink]="['../about-us']">About-Us</mat-list-item>
-        <mat-list-item [routerLink]="['../login']">Log-Out</mat-list-item>
-        <mat-list-item [routerLink]="['../register']">Register</mat-list-item>
-    </mat-list>
-
-
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="main-body">
-
-      <mat-form-field>
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-      </mat-form-field>
-
-      <div class="table-container">
-        <table mat-table [dataSource]="dataSource" matSort>
-
-          <!-- ID Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
-          </ng-container>
-
-          <!-- Progress Column -->
-          <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.firstName}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.lastName}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-            <td mat-cell *matCellDef="let row"> {{row.email}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="dob">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> dob </th>
-            <td mat-cell *matCellDef="let row"> {{row.dob | date}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="gender">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> gender </th>
-            <td mat-cell *matCellDef="let row"> {{row.gender}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="education">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Education </th>
-            <td mat-cell *matCellDef="let row"> {{row.education}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="company">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Company </th>
-            <td mat-cell *matCellDef="let row"> {{row.company}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="experience">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Exp. </th>
-            <td mat-cell *matCellDef="let row"> {{row.experience}}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="package">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Package </th>
-            <td mat-cell *matCellDef="let row"> {{row.salaryPackage | currency:'USD'}}USD</td>
-          </ng-container>
-
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
-            <td mat-cell *matCellDef="let row">
-              <button mat-icon-button color="primary" (click)="openEditForm(row)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" (click)="deleteEmployee(row.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-          <!-- Row shown when there is no matching data. -->
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-          </tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <mat-sidenav-container>
+    <mat-sidenav [(opened)]="opened" mode="side">
+  
+      <mat-list>
+          <mat-list-item [routerLink]="['../index']">Accueil</mat-list-item>
+          <mat-list-item [routerLink]="['../about-us']">À propos</mat-list-item>
+          <mat-list-item [routerLink]="['../login']">Déconnexion</mat-list-item>
+          <mat-list-item [routerLink]="['../register']">S'inscrire</mat-list-item>
+      </mat-list>
+  
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="main-body">
+  
+        <mat-form-field>
+          <mat-label>Filtrer</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+  
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort>
+  
+            <!-- Colonne ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+            </ng-container>
+  
+            <!-- Colonne Prénom -->
+            <ng-container matColumnDef="firstName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Prénom </th>
+              <td mat-cell *matCellDef="let row"> {{row.firstName}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="lastName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+              <td mat-cell *matCellDef="let row"> {{row.lastName}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+              <td mat-cell *matCellDef="let row"> {{row.email}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="dob">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de naissance </th>
+              <td mat-cell *matCellDef="let row"> {{row.dob | date}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="gender">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Genre </th>
+              <td mat-cell *matCellDef="let row"> {{row.gender}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="education">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Éducation </th>
+              <td mat-cell *matCellDef="let row"> {{row.education}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="company">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Entreprise </th>
+              <td mat-cell *matCellDef="let row"> {{row.company}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="experience">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Expérience </th>
+              <td mat-cell *matCellDef="let row"> {{row.experience}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="package">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Package </th>
+              <td mat-cell *matCellDef="let row"> {{row.salaryPackage | currency:'USD'}}USD</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+              <td mat-cell *matCellDef="let row">
+                <button mat-icon-button color="primary" (click)="openEditForm(row)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteEmployee(row.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+            <!-- Ligne affichée lorsqu'il n'y a pas de données correspondantes -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Aucune donnée correspondant au filtre "{{input.value}}"</td>
+            </tr>
+          </table>
+  
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Sélectionner une page d'utilisateurs"></mat-paginator>
+        </div>
       </div>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
   <!-- Footer Start -->
   <div class="container-fluid bg-dark text-light mt-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">

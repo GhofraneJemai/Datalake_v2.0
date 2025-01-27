@@ -50,10 +50,10 @@ const routes: Routes = [
     path: 'index', component: IndexComponent
   },
   {
-    path: 'home-candidat', component: HomePageCandidateComponent
+    path: 'home-candidat', component: HomePageCandidateComponent,canActivate: [RoleGuard],data: { expectedRole: 'CANDIDATE' }
   },
   {
-    path: 'home-admin', component: HomePageAdminComponent
+    path: 'home-admin', component: HomePageAdminComponent,canActivate: [RoleGuard],data: { expectedRole: 'ADMIN' }
   },
   {
     path: 'service', component: ServiceComponent

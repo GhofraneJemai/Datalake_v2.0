@@ -16,7 +16,7 @@ export class JobDetailsComponent implements OnInit {
   applicationData: any;
   coverLetter: string = '';
   cvFile: File | null = null;
-  candidateId!: number;
+  candidateId: number | null = null;  
 
   // Declare the form group
   applyForm!: FormGroup;
@@ -30,6 +30,14 @@ export class JobDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Extract candidateId from the token
+    const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+    if (token) {
+      this.candidateId = this.extractCandidateId(token);
+    } else {
+      console.error('Token not found');
+    }
+
     if (this.data?.jobPostId) {
       this.jobPostId = this.data.jobPostId;
       console.log('JobPost ID from dialog data:', this.jobPostId);
@@ -41,22 +49,29 @@ export class JobDetailsComponent implements OnInit {
 
     if (this.jobPostId) {
       this.loadJobDetails();
-      this.loadApplicationDetails();
       this.initializeForm(); // Initialize the form once job details are loaded
     } else {
       console.error('JobPost ID is missing.');
     }
   }
 
-  // Initialize the form with default values
+  private extractCandidateId(token: string): number | null {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
+      return payload.userId || null; // Extract userId, which is the candidateId
+    } catch (err) {
+      console.error('Error decoding token:', err);
+      return null;
+    }
+  }
+
+  // Initialize the form with default values (without candidateId)
   initializeForm() {
     this.applyForm = this.fb.group({
-      candidateId: [null, Validators.required],
       coverLetter: ['', Validators.required],
       cvFile: [null, Validators.required]
     });
   }
-  
 
   loadJobDetails() {
     this.jobPostService.getJobPostById(this.jobPostId).subscribe(
@@ -74,16 +89,7 @@ export class JobDetailsComponent implements OnInit {
     );
   }
 
-  loadApplicationDetails() {
-    this.applicationService.getApplicationById(this.jobPostId).subscribe(
-      (data) => {
-        this.applicationData = data;
-      },
-      (error) => {
-        console.error('Error loading application details:', error);
-      }
-    );
-  }
+
 
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -101,26 +107,35 @@ export class JobDetailsComponent implements OnInit {
       console.error('Please select a CV file to submit');
       return;
     }
-
+  
     if (this.applyForm.invalid) {
       console.error('Form is invalid');
       return;
     }
-
-    this.applicationService.applyForJob(
-      this.applyForm.value.candidateId,
-      this.jobPostId,
-      this.applyForm.value.coverLetter,
-      this.cvFile
-    ).subscribe(
-      (response) => {
-        console.log('Application submitted successfully:', response);
-      },
-      (error) => {
-        console.error('Error submitting application:', error);
-      }
-    );
+  
+    if (this.candidateId !== null) {
+      this.applicationService.applyForJob(
+        this.candidateId, // Use candidateId directly from the token
+        this.jobPostId,
+        this.applyForm.value.coverLetter,
+        this.cvFile
+      ).subscribe(
+        (response) => {
+          console.log('Application submitted successfully:', response);
+          // Close the dialog after successful submission
+          if (this.data.closeDialog) {
+            this.data.closeDialog();
+          }
+        },
+        (error) => {
+          console.error('Error submitting application:', error);
+        }
+      );
+    } else {
+      console.error('Candidate ID is missing');
+    }
   }
+  
 
   onCancel(): void {
     if (this.data.closeDialog) {
