@@ -86,4 +86,17 @@ export class ApplicationService {
   getApplicationsGroupedByJobPost(): Observable<any> {
     return this.http.get(`${this.apiUrl}/grouped-by-job-post`);
   }
+  deleteApplication(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+  updateCandidateInfo(id: number, coverLetter: string, cvFile: File | null): Observable<any> {
+    const formData = new FormData();
+  formData.append('coverLetter', coverLetter);
+  if (cvFile) {
+    formData.append('cvFile', cvFile); // Only append if the file exists
+  }
+
+  
+    return this.http.put(`${this.apiUrl}/update/${id}`, formData);
+  }
 }

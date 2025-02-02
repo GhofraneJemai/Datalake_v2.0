@@ -91,18 +91,27 @@
             <div
               *ngFor="let application of applications"
               class="col-lg-4 col-md-6 wow zoomIn"
-              data-wow-delay="0.3s"
+                data-wow-delay="0.3s"
             >
-              <div
-                class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center p-4"
-              >
-                <div class="service-icon mb-3">
-                  <i class="fa fa-briefcase text-white"></i>
-                </div>
+                <div
+                    class="service-item bg-light rounded d-flex flex-column align-items-center justify-content-center text-center"
+                >
+                    <div class="service-icon">
+                        <i class="fa fa-briefcase text-white"></i>
+                    </div>
                 <h4 class="mb-3">{{ application.jobPost.title }}</h4>
                 <p><strong>Entreprise :</strong> {{ application.jobPost.description }}</p>
                 <p><strong>Statut :</strong> {{ application.status }}</p>
                 <p><strong>Postulé le :</strong> {{ application.createdAt | date }}</p>
+                <div>
+                    <!-- Edit Button -->
+                    <button mat-icon-button color="primary" (click)="openUpdateForm(application.jobPost.id,application.id)"><mat-icon>edit</mat-icon></button>
+                    <!-- Delete Button -->
+                    <button mat-icon-button color="warn" (click)="deleteApplication(application.id)"><mat-icon>delete</mat-icon></button>
+                </div>
+                  
+                  
+                
               </div>
             </div>
           </div>

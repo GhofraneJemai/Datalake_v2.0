@@ -16,3 +16,10 @@
     flex: 1;
   }
 }
+.scroll-container {
+  max-height: 450px; /* Ajuste la hauteur maximale */
+  overflow-y: auto; /* Active la barre de défilement verticale */
+  overflow-x: hidden; /* Empêche le défilement horizontal */
+  padding-right: 10px; /* Optionnel : espace pour éviter la superposition avec la scrollbar */
+}
+

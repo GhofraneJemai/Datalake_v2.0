@@ -1,50 +1,56 @@
 <div mat-dialog-title style="background-color: #1976d2; color: white; height: 60px; display: flex; align-items: center;">
   <h2>Formulaire de Candidature</h2>
 </div>
+
 <form [formGroup]="applyForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-  <div class="modal-body">
-    <div class="mb-3">
-      <strong>Description:</strong>
-      <p>{{ selectedJobPost?.description }}</p>
-    </div>
-    <div class="mb-3">
-      <strong>Location:</strong>
-      <p>{{ selectedJobPost?.location }}</p>
-    </div>
-    <div class="mb-3">
-      <strong>Requirements:</strong>
-      <p>{{ selectedJobPost?.requirements }}</p>
-    </div>
-    <div class="mb-3">
-      <strong>Posted At:</strong>
-      <p>{{ selectedJobPost?.postedAt | date:'short' }}</p>
-    </div>
-  </div>
+  <div class="scroll-container">
+    <div class="modal-body">
+      <div class="mb-3">
+        <strong>Description:</strong>
+        <p>{{ selectedJobPost?.description }}</p>
+      </div>
+      <div class="mb-3">
+        <strong>Location:</strong>
+        <p>{{ selectedJobPost?.location }}</p>
+      </div>
+      <div class="mb-3">
+        <strong>Requirements:</strong>
+        <p>{{ selectedJobPost?.requirements }}</p>
+      </div>
+      <div class="mb-3">
+        <strong>Posted At:</strong>
+        <p>{{ selectedJobPost?.postedAt | date:'short' }}</p>
+      </div>
 
+      <!-- Cover Letter -->
+      <div class="mb-3">
+        <strong>Cover Letter:</strong>
+        <textarea
+          id="coverLetter"
+          formControlName="coverLetter"
+          rows="3"
+          class="form-control"
+          [(ngModel)]="application.coverLetter"
+          placeholder="Enter cover letter"
+        ></textarea>
+      </div>
 
-  <!-- Cover Letter -->
-<!-- Cover Letter -->
-<div class="mb-3">
-  <strong>Cover Letter:</strong>
-  <textarea
-    id="coverLetter"
-    formControlName="coverLetter"
-    rows="3"
-    class="form-control"
-  ></textarea>
-</div>
-
-
-  <!-- Upload CV -->
-  <div class="mb-3">
-    <strong>Upload CV:</strong>
-    <input
-      type="file"
-      id="cvFile"
-      formControlName="cvFile"
-      (change)="onFileChange($event)"
-      class="form-control"
-    />
+      <!-- Upload CV -->
+      <div class="mb-3">
+        <strong>Upload CV:</strong>
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          id="cvFile"
+          class="form-control"
+          [disabled]="application.cvFile"
+        />
+        <div>
+          <strong>Current CV:</strong>
+          <p>{{ cvFileUrl }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div mat-dialog-actions class="action">
