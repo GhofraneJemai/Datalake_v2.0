@@ -4,6 +4,7 @@ import { JobPostService } from '../../../../services/job-post.service';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../../services/auth.service';
+import { CoreService } from '../../../../core/core.service';
 
 @Component({
   selector: 'app-candidate-job-posts',
@@ -15,7 +16,7 @@ export class CandidateJobPostsComponent implements OnInit {
   selectedJobPost: JobPost | null = null;
   
 
-  constructor(private jobPostService: JobPostService,private authService: AuthService,
+  constructor(private jobPostService: JobPostService,private authService: AuthService,private _coreService: CoreService ,
     private _dialog: MatDialog ) {}
 
   ngOnInit(): void {
@@ -35,8 +36,9 @@ export class CandidateJobPostsComponent implements OnInit {
 
   applyForJob(jobId: number): void {
     // Logic to handle job application
+    const jobPost = this.jobPosts.find(post => post.id === jobId);
     console.log(`Applying for job with ID: ${jobId}`);
-    alert(`Application submitted for job ID: ${jobId}`);
+    this._coreService.openSnackBar(`Application submitted for job : ${jobPost?.title}`, 'success');
   }
   openJobDetails(jobPostId: number) {
     // Open the JobDetailsComponent in a dialog and pass the jobPostId

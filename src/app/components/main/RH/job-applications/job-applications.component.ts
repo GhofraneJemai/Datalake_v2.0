@@ -3,6 +3,7 @@ import { Application } from '../../../../interfaces/application.model';
 import { ApplicationService } from '../../../../services/application.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../../services/auth.service';
+import { CoreService } from '../../../../core/core.service';
 
 @Component({
   selector: 'app-job-applications',
@@ -28,7 +29,8 @@ export class JobApplicationsComponent implements OnInit {
 
   constructor(
     private applicationService: ApplicationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private _coreService: CoreService
   ) {}
 
   ngOnInit(): void {
@@ -81,10 +83,12 @@ export class JobApplicationsComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Status updated successfully:', response);
+              this._coreService.openSnackBar('Status updated to APPROVED!', 'success');
               this.ngOnInit();
             },
             (error) => {
               console.error('Error during status update:', error);
+              this._coreService.openSnackBar('Error updating status', 'error');
             }
           );
       } else {
@@ -98,10 +102,12 @@ export class JobApplicationsComponent implements OnInit {
         .subscribe(
           (response) => {
             console.log('Status updated successfully:', response);
+            this._coreService.openSnackBar('Status updated to APPROVED!', 'success');
             this.ngOnInit();
           },
           (error) => {
             console.error('Error during status update:', error);
+            this._coreService.openSnackBar('Error updating status', 'error');
           }
         );
     }

@@ -4,6 +4,7 @@ import { JobPostService } from '../../../../services/job-post.service';
 import { ApplicationService } from '../../../../services/application.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CoreService } from '../../../../core/core.service';
 
 @Component({
   selector: 'app-job-details',
@@ -28,7 +29,8 @@ export class JobDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { jobPostId: number; applicationId: number, closeDialog: () => void },
     private jobPostService: JobPostService,
     private applicationService: ApplicationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _coreService: CoreService
   ) {}
 
   ngOnInit(): void {
@@ -151,12 +153,14 @@ export class JobDetailsComponent implements OnInit {
           ).subscribe(
             (response) => {
               console.log('Application updated successfully:', response);
+              this._coreService.openSnackBar('Application updated successfully', 'success');
               if (this.data.closeDialog) {
                 this.data.closeDialog();
               }
             },
             (error) => {
               console.error('Error updating application:', error);
+              this._coreService.openSnackBar('Error updating application. Please try again later.', 'error');
             }
           );
         } else {
@@ -169,12 +173,14 @@ export class JobDetailsComponent implements OnInit {
           ).subscribe(
             (response) => {
               console.log('Application submitted successfully:', response);
+              this._coreService.openSnackBar('Application submitted successfully', 'success');
               if (this.data.closeDialog) {
                 this.data.closeDialog();
               }
             },
             (error) => {
               console.error('Error submitting application:', error);
+              this._coreService.openSnackBar('Error submitting application. Please try again later.', 'error');
             }
           );
         }

@@ -4,6 +4,7 @@ import { ApplicationService } from '../../../../services/application.service';
 import { AuthService } from '../../../../services/auth.service';
 import { JobDetailsComponent } from '../job-details/job-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CoreService } from '../../../../core/core.service';
 
 @Component({
   selector: 'app-my-applications',
@@ -23,7 +24,8 @@ export class MyApplicationsComponent implements OnInit {
   constructor(
     private applicationService: ApplicationService,
     private authService: AuthService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _coreService: CoreService
   ) { }
 
   ngOnInit(): void {
@@ -69,13 +71,13 @@ export class MyApplicationsComponent implements OnInit {
     if (confirm('Are you sure you want to delete this application?')) {
       this.applicationService.deleteApplication(jobId).subscribe({
         next: () => {
-          alert('Application deleted successfully');
+          this._coreService.openSnackBar('Application deleted successfully', 'success');
           // Optionally, refresh the job list or update UI
           this.applications = this.applications.filter(app => app.id !== jobId);
         },
         error: (err) => {
           console.error('Error deleting application:', err);
-          alert('Failed to delete application');
+          this._coreService.openSnackBar('Failed to delete application', 'error');
         }
       });
     }
@@ -93,7 +95,7 @@ export class MyApplicationsComponent implements OnInit {
     if (application && this.coverLetter && this.cvFile) {
       this.applicationService.updateCandidateInfo(applicationId, this.coverLetter, this.cvFile).subscribe({
         next: (updatedApplication) => {
-          alert('Application updated successfully');
+          this._coreService.openSnackBar('Application updated successfully', 'success');
           // Update the application in the list with the new information
           application.coverLetter = updatedApplication.coverLetter;
           application.cvUrl = updatedApplication.cvFile;  // Adjust if the response has a new file URL
@@ -104,11 +106,11 @@ export class MyApplicationsComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error updating application:', err);
-          alert('Failed to update application');
+          this._coreService.openSnackBar('Failed to update application', 'error');
         }
       });
     } else {
-      alert('Please provide all the required information');
+      this._coreService.openSnackBar('Please provide all the required information', 'error');
     }
   }
   

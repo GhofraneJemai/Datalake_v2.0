@@ -85,14 +85,23 @@ export class LoginComponent {
         }
       },
       (error) => {
-        const errorMessage =
-          error?.error?.message || error?.message || 'Login failed';
+        let errorMessage = 'Une erreur inconnue est survenue. Veuillez réessayer.';
+      
+        if (error.status === 400) {
+          errorMessage = 'Email ou mot de passe incorrect.';
+        } else if (error.status === 401) {
+          errorMessage = 'Accès non autorisé. Vérifiez vos informations.';
+        } else if (error.status === 500) {
+          errorMessage = 'Erreur interne du serveur. Réessayez plus tard.';
+        }
+      
         this.messageService.add({
           severity: 'error',
-          summary: 'Error',
+          summary: 'Erreur',
           detail: errorMessage,
         });
       }
+      
     );
   }
   

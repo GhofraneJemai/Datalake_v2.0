@@ -81,10 +81,19 @@ export class RegisterComponent {
         window.location.href = '/login';
       },
       (error) => {
-        console.error('Error response:', error);  // Log the error response
-        const errorMessage = error?.error?.message || error?.message || 'Registration failed';
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMessage });
+        let errorMessage = 'Une erreur inconnue est survenue. Veuillez réessayer.';
+      
+        if (error.status === 400) {
+          errorMessage = 'Adresse e-mail déjà utilisée ou données invalides.';
+        } else if (error.status === 409) {
+          errorMessage = 'Cet utilisateur existe déjà.';
+        } else if (error.status === 500) {
+          errorMessage = 'Erreur interne du serveur. Réessayez plus tard.';
+        }
+      
+        this.messageService.add({ severity: 'error', summary: 'Erreur', detail: errorMessage });
       }
+      
     );
   }
   

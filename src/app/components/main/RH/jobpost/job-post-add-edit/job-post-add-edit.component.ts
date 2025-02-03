@@ -37,10 +37,12 @@ export class JobPostAddEditComponent {
   onFormSubmit() {
     if (this.jobPostForm.valid) {
       if (this.data) {
+        this._coreService.openSnackBar('Job post updated successfully!', 'success');
         this.jobPostService.updateJobPost(this.data.id, this.jobPostForm.value).subscribe(() => {
           this.dialogRef.close(true);
         });
       } else {
+        this._coreService.openSnackBar('Error updating job post', 'error');
         this.jobPostService.addJobPost(this.jobPostForm.value).subscribe(() => {
           this.dialogRef.close(true);
         });
