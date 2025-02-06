@@ -73,14 +73,34 @@ export class JobPostComponent implements OnInit {
   }
 
   deleteJobPost(id: number) {
-    this._jobPostService.deleteJobPost(id).subscribe({
-      next: (res) => {
-        this._coreService.openSnackBar('Job post deleted!', 'done');
-        this.getJobPostList();
-      },
-      error: console.log,
+    // Ouvre le SnackBar de confirmation
+    const snackBarRef = this._coreService.openConfirmationSnackBar(
+      'Êtes-vous sûr de vouloir supprimer cet employé ?',
+      'Confirmer',  // Texte du bouton Confirmer
+      'Annuler'     // Texte du bouton Annuler
+    );
+  
+    // Lorsque l'utilisateur confirme l'action
+    snackBarRef.onAction().subscribe(() => {
+      console.log('User confirmed the deletion');
+  
+      // Supprime l'employé après confirmation
+      this._jobPostService.deleteJobPost(id).subscribe({
+        next: (res) => {
+          this._coreService.openSnackBar('Job post deleted!', 'done');
+          this.getJobPostList(); // Met à jour la liste des offres d'emploi
+        },
+        error: console.log,
+      });
+    });
+  
+    // Lorsque l'utilisateur annule ou le SnackBar est fermé
+    snackBarRef.afterDismissed().subscribe(() => {
+      console.log('Snackbar dismissed, no action taken.');
+      // Ajoutez une logique supplémentaire si nécessaire
     });
   }
+  
 
   openEditForm(data: any) {
     const dialogRef = this._dialog.open(JobPostAddEditComponent, {

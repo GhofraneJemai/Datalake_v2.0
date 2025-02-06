@@ -68,7 +68,16 @@ export class MyApplicationsComponent implements OnInit {
 
   // Delete application functionality
   deleteApplication(jobId: number): void {
-    if (confirm('Are you sure you want to delete this application?')) {
+
+    const snackBarRef = this._coreService.openConfirmationSnackBar(
+      'Êtes-vous sûr de vouloir supprimer cette candidature ?',
+      'Confirmer',  // Texte du bouton Confirmer
+      'Annuler'     // Texte du bouton Annuler
+    );
+  
+    // Lorsque l'utilisateur confirme l'action
+    snackBarRef.onAction().subscribe(() => {
+      console.log('User confirmed the deletion');
       this.applicationService.deleteApplication(jobId).subscribe({
         next: () => {
           this._coreService.openSnackBar('Application deleted successfully', 'success');
@@ -80,7 +89,13 @@ export class MyApplicationsComponent implements OnInit {
           this._coreService.openSnackBar('Failed to delete application', 'error');
         }
       });
-    }
+    });
+
+    // Lorsque l'utilisateur annule ou le SnackBar est fermé
+    snackBarRef.afterDismissed().subscribe(() => {
+      console.log('Snackbar dismissed, no action taken.');
+      // Ajoutez une logique supplémentaire si nécessaire
+    });
   }
 
   // Handle file input change (to capture file selection)

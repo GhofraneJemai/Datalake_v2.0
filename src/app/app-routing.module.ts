@@ -71,7 +71,16 @@ const routes: Routes = [
     path: 'forbidden', component: ForbiddenComponent
   },
   {
-    path:'**', redirectTo:'index',pathMatch:'full'
+    path: '',
+    redirectTo: 'index', // Default redirect to 'index'
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    canActivate: [RoleGuard], // Use the RoleGuard to handle logout for unknown routes
+    data: { expectedRole: 'LOGOUT' },
+    // Empty component just to handle the route
+    component: IndexComponent // You can render the index page after logout
   }
   
 ];

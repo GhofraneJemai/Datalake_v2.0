@@ -76,12 +76,34 @@ export class HomeComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
-    this._empService.deleteEmployee(id).subscribe({
-      next: (res) => {
-        this._coreService.openSnackBar('Employee deleted!', 'done');
-        this.getEmployeeList();
-      },
-      error: console.log,
+    // Ouvre le SnackBar de confirmation avec le composant personnalisé
+    const snackBarRef = this._coreService.openConfirmationSnackBar(
+      'Êtes-vous sûr de vouloir supprimer cet employé ?',
+      'Confirmer',  // Texte du bouton Confirmer
+      'Annuler'     // Texte du bouton Annuler
+    );
+
+    // Lorsque l'utilisateur clique sur Confirmer
+    snackBarRef.onAction().subscribe(() => {
+      console.log('User confirmed the deletion');
+      
+      // Effectuez l'action de suppression
+      this._empService.deleteEmployee(id).subscribe({
+        next: (res) => {
+          this._coreService.openSnackBar('Employee deleted!', 'done');
+          this.getEmployeeList(); // Mettez à jour la liste des employés
+        },
+        error: (err) => {
+          console.log('Error:', err);
+          this._coreService.openSnackBar('Failed to delete employee', 'done');
+        },
+      });
+    });
+
+    // Quand l'utilisateur annule ou ferme le SnackBar
+    snackBarRef.afterDismissed().subscribe(() => {
+      console.log('Snackbar dismissed or canceled');
+      // Vous pouvez ajouter une action supplémentaire si nécessaire
     });
   }
 

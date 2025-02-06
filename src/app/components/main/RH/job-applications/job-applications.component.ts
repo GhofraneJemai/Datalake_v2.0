@@ -84,7 +84,11 @@ export class JobApplicationsComponent implements OnInit {
             (response) => {
               console.log('Status updated successfully:', response);
               this._coreService.openSnackBar('Status updated to APPROVED!', 'success');
-              this.ngOnInit();
+              const index = this.applications.findIndex(app => app.id === application.id);
+      if (index !== -1) {
+        this.applications[index] = { ...application, recruitmentDate: formattedDate };
+        this.dataSource.data = [...this.applications]; // Mise à jour de la table
+      }
             },
             (error) => {
               console.error('Error during status update:', error);
@@ -103,7 +107,11 @@ export class JobApplicationsComponent implements OnInit {
           (response) => {
             console.log('Status updated successfully:', response);
             this._coreService.openSnackBar('Status updated to APPROVED!', 'success');
-            this.ngOnInit();
+            const index = this.applications.findIndex(app => app.id === application.id);
+            if (index !== -1) {
+              this.applications[index] = { ...application };
+              this.dataSource.data = [...this.applications]; // Mise à jour du tableau
+            }
           },
           (error) => {
             console.error('Error during status update:', error);

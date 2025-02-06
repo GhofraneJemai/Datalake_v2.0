@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authService: AuthService) {}
 
   canActivate(route: any): boolean {
-    const token = localStorage.getItem('token'); // Retrieve the token
+    const token = localStorage.getItem('token');
+    if (route.data.expectedRole === 'LOGOUT') {
+      // Handle logout for unknown routes
+      localStorage.removeItem('token'); // Remove the token
+    localStorage.removeItem('candidateId'); 
+      this.router.navigate(['index']); // Redirect to index after logout
+      return false;
+    } // Retrieve the token
 
     if (!token) {
       // If no token, redirect to login page
@@ -23,6 +31,8 @@ export class RoleGuard implements CanActivate {
     }
 
     // Redirect if the role doesn't match or is missing
+    localStorage.removeItem('token'); // Remove the token
+    localStorage.removeItem('candidateId'); 
     this.router.navigate(['forbidden']);
     return false;
   }
