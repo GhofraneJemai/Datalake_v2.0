@@ -31,7 +31,7 @@ export class EmpAddEditComponent implements OnInit {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      dob: ['', [Validators.required]],
+      dob: ['', [Validators.required,this.dateValidator]],
       gender: ['', [Validators.required]],
       education: ['', [Validators.required]],
       company: ['', [Validators.required]],
@@ -78,6 +78,23 @@ export class EmpAddEditComponent implements OnInit {
         },
       });
     }
+  }
+  dateValidator(control: any) {
+    if (!control.value) return null; // Allow empty values to be handled by 'required'
+
+    const inputDate = new Date(control.value);
+    const today = new Date();
+    const minAgeDate = new Date();
+    minAgeDate.setFullYear(today.getFullYear() - 18); // 18 years ago
+
+    if (inputDate > today) {
+      return { futureDate: true }; // 🚫 Date is in the future
+    }
+    if (inputDate > minAgeDate) {
+      return { tooYoung: true }; // 🚫 User is less than 18 years old
+    }
+
+    return null; // ✅ Valid date
   }
   
   

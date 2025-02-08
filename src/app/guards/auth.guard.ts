@@ -10,13 +10,6 @@ export class RoleGuard implements CanActivate {
 
   canActivate(route: any): boolean {
     const token = localStorage.getItem('token');
-    if (route.data.expectedRole === 'LOGOUT') {
-      // Handle logout for unknown routes
-      localStorage.removeItem('token'); // Remove the token
-    localStorage.removeItem('candidateId'); 
-      this.router.navigate(['index']); // Redirect to index after logout
-      return false;
-    } // Retrieve the token
 
     if (!token) {
       // If no token, redirect to login page
@@ -25,14 +18,22 @@ export class RoleGuard implements CanActivate {
     }
 
     const role = this.extractRole(token); // Extract the role from the JWT
-
+    console.log(role);
     if (role === route.data.expectedRole) {
       return true; // Authorized access
     }
+    if (!route.data || !route.data.expectedRole) {
+        // Handle logout for unknown routes
+        if (role === 'CANDIDATE') {
+          this.router.navigate(['/home-candidat']);
+      } else if (role === 'ADMIN') {
+          this.router.navigate(['/home-admin']);
+      }
+      return false;
+    } // Retrieve the token
 
     // Redirect if the role doesn't match or is missing
-    localStorage.removeItem('token'); // Remove the token
-    localStorage.removeItem('candidateId'); 
+
     this.router.navigate(['forbidden']);
     return false;
   }

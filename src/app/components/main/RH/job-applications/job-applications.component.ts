@@ -36,14 +36,20 @@ export class JobApplicationsComponent implements OnInit {
   ngOnInit(): void {
     this.applicationService.getAllApplications().subscribe(
       (data: Application[]) => {
-        this.applications = data;
-        this.dataSource.data = this.applications;  // Update the dataSource
+        this.applications = data.map(application => {
+          // Construct the full URL for the CV file
+          const fileName = application.cvUrl;
+          application.cvUrl = `http://localhost:8090/datalake/api/applications/${fileName}`;  // Mettez à jour l'URL pour pointer vers le backend
+          return application;
+        });
+        this.dataSource.data = this.applications;  // Mise à jour de la dataSource
       },
       (error) => {
         console.error('Error fetching applications', error);
       }
     );
   }
+  
   onStatusChange(application: any): void {
     console.log('Status change detected. Current status:', application.status);
     if (application.status === 'APPROVED') {
@@ -61,6 +67,19 @@ export class JobApplicationsComponent implements OnInit {
     if (application.status === 'APPROVED') {
       console.log('Status is APPROVED. Checking if recruitment date exists...');
       if (application.recruitmentDate) {
+        const selectedDate = new Date(application.recruitmentDate);
+        const currentDate = new Date();
+  
+        // Réinitialisation de l'heure pour comparer uniquement les dates
+        currentDate.setHours(0, 0, 0, 0);
+        selectedDate.setHours(0, 0, 0, 0);
+  
+        if (selectedDate < currentDate) {
+          console.log('Invalid recruitment date: Cannot be in the past.');
+          this._coreService.openSnackBar('La date de recrutement ne peut pas être dans le passé.', 'ok');
+          application.recruitmentDate = null;
+          return;
+        }
         console.log('Recruitment date provided. Proceeding to update...');
         this.updateStatus(application);
       } else {
@@ -76,7 +95,9 @@ export class JobApplicationsComponent implements OnInit {
     if (application.status === 'APPROVED') {
       if (application.recruitmentDate) {
         const date = new Date(application.recruitmentDate);
-        const formattedDate = date.toISOString().slice(0, 19); // Trims milliseconds and 'Z'
+        const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
+        const formattedDate = utcDate.toISOString().slice(0, 19);
+         // Trims milliseconds and 'Z'
         console.log(`Updating APPROVED status with formatted date: ${formattedDate}`);
         this.applicationService
           .updateApplicationStatus(application.id, application.status, formattedDate)

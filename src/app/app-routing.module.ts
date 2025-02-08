@@ -78,7 +78,6 @@ const routes: Routes = [
   {
     path: '**',
     canActivate: [RoleGuard], // Use the RoleGuard to handle logout for unknown routes
-    data: { expectedRole: 'LOGOUT' },
     // Empty component just to handle the route
     component: IndexComponent // You can render the index page after logout
   }

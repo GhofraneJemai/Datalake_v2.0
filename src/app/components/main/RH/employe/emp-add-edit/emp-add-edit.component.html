@@ -25,6 +25,13 @@
                 <mat-hint>MM/JJ/AAAA</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="empForm.get('dob')?.hasError('futureDate')">
+                    La date ne peut pas être dans le futur.
+                </mat-error>
+
+            <mat-error *ngIf="empForm.get('dob')?.hasError('tooYoung')">
+              Vous devez avoir au moins 18 ans.
+            </mat-error>
             </mat-form-field>
         </div>
 
