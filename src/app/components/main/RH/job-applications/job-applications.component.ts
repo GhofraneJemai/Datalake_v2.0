@@ -91,6 +91,15 @@ export class JobApplicationsComponent implements OnInit {
   }
 
   updateStatus(application: Application): void {
+    let statusMessage = '';
+
+    if (application.status === 'PENDING') {
+      statusMessage = 'Statut mis à jour : En attente';
+    } else if (application.status === 'REJECTED') {
+      statusMessage = 'Statut mis à jour : Rejeté';
+    } else if (application.status === 'APPROVED') {
+      statusMessage = 'Statut mis à jour : Approuvé';
+    }
     console.log('Entering updateStatus method. Application data:', application);
     if (application.status === 'APPROVED') {
       if (application.recruitmentDate) {
@@ -104,7 +113,7 @@ export class JobApplicationsComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Status updated successfully:', response);
-              this._coreService.openSnackBar('Status updated to APPROVED!', 'success');
+              this._coreService.openSnackBar(statusMessage, 'success');
               const index = this.applications.findIndex(app => app.id === application.id);
       if (index !== -1) {
         this.applications[index] = { ...application, recruitmentDate: formattedDate };
@@ -121,13 +130,14 @@ export class JobApplicationsComponent implements OnInit {
         alert('Please provide a recruitment date for APPROVED status.');
       }
     } else {
+      
       console.log(`Updating status: ${application.status} without recruitment date.`);
       this.applicationService
         .updateApplicationStatus(application.id, application.status, '')
         .subscribe(
           (response) => {
             console.log('Status updated successfully:', response);
-            this._coreService.openSnackBar('Status updated to APPROVED!', 'success');
+            this._coreService.openSnackBar(statusMessage, 'success');
             const index = this.applications.findIndex(app => app.id === application.id);
             if (index !== -1) {
               this.applications[index] = { ...application };
