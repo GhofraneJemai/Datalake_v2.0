@@ -62,8 +62,13 @@ export class EmpAddEditComponent implements OnInit {
           this._dialogRef.close({ action: 'update', updatedEmployee });
         },
         error: (err) => {
-          this._coreService.openSnackBar('Error updating employee', 'error');
-          console.error('Error during update:', err);
+          if (err.status === 409) {
+            this._coreService.openSnackBar('The email is already in use by another employee', 'error');
+          } else {
+            this._coreService.openSnackBar('Error updating employee', 'error');
+            console.error('Error during update:', err);
+          }
+
         },
       });
     } else {
@@ -73,8 +78,13 @@ export class EmpAddEditComponent implements OnInit {
           this._dialogRef.close({ action: 'add', newEmployee });
         },
         error: (err) => {
-          this._coreService.openSnackBar('Error adding employee', 'error');
-          console.error('Error during addition:', err);
+          if (err.status === 409) {
+            this._coreService.openSnackBar('The email is already in use by another employee', 'error');
+          } else {
+            this._coreService.openSnackBar('Error updating employee', 'error');
+            console.error('Error during update:', err);
+          }
+          
         },
       });
     }
