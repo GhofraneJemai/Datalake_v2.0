@@ -9,7 +9,10 @@ mat-sidenav{
 .example-spacer {
   flex: 1 1 auto;
 }
-
+.selected-row {
+  background-color: #e0f7fa; /* Couleur de fond pour la ligne sélectionnée */
+  border: 2px solid #00bcd4; /* Bordure pour la ligne sélectionnée */
+}
 .main-body {
   padding-top: 20px;
   margin: 0 auto;

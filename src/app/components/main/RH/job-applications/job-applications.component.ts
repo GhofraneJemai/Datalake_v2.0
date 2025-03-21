@@ -23,9 +23,11 @@ export class JobApplicationsComponent implements OnInit {
     'cvUrl',
     'status',
     'recruitmentDate',
+    'actions',
     
   ];
   dataSource = new MatTableDataSource<Application>(this.applications);
+  selectedRowId: number | null = null; 
 
   constructor(
     private applicationService: ApplicationService,
@@ -43,22 +45,67 @@ export class JobApplicationsComponent implements OnInit {
           return application;
         });
         this.dataSource.data = this.applications;  // Mise à jour de la dataSource
+        
       },
       (error) => {
         console.error('Error fetching applications', error);
       }
     );
   }
+  onUpdate(application: any): void {
+    console.log('Update button clicked. Checking status and recruitment date...');
+    this.selectedRowId = application.id;
+  
+    // Vérifier le statut
+    if (application.status === 'APPROVED') {
+      console.log('Status is APPROVED. Checking recruitment date...');
+  
+      // Vérifier si la date de recrutement est valide
+      if (application.recruitmentDate) {
+        const selectedDate = new Date(application.recruitmentDate);
+        const currentDate = new Date();
+  
+        // Réinitialiser l'heure pour comparer uniquement les dates
+        currentDate.setHours(0, 0, 0, 0);
+        selectedDate.setHours(0, 0, 0, 0);
+  
+        if (selectedDate < currentDate) {
+          console.log('Invalid recruitment date: Cannot be in the past.');
+          this._coreService.openSnackBar('La date de recrutement ne peut pas être dans le passé.', 'ok');
+          application.recruitmentDate = null;
+          return;
+        }
+  
+        console.log('Recruitment date is valid. Proceeding to update...');
+      } else {
+        console.log('Recruitment date not provided. Halting update.');
+        this._coreService.openSnackBar('Veuillez sélectionner une date de recrutement.', 'ok');
+        return;
+      }
+    } else {
+      console.log('Status is not APPROVED. Clearing recruitment date...');
+      application.recruitmentDate = null;
+    }
+  
+    // Appeler la méthode pour mettre à jour l'application
+    this.updateStatus(application);
+    setTimeout(() => {
+      this.selectedRowId = null;
+    }, 500);
+  }
   
   onStatusChange(application: any): void {
     console.log('Status change detected. Current status:', application.status);
+  
+    // Mettre à jour la ligne sélectionnée
+    this.selectedRowId = application.id;
+  
     if (application.status === 'APPROVED') {
       console.log('APPROVED selected. Checking recruitment date visibility...');
       application.recruitmentDate = application.recruitmentDate || null;
     } else {
       console.log('Status not APPROVED. Clearing recruitment date...');
       application.recruitmentDate = null;
-      this.updateStatus(application);
     }
   }
 
