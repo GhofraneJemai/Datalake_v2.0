@@ -46,11 +46,13 @@ export class MyApplicationsComponent implements OnInit {
     }
   }
   openUpdateForm(jobPostId: number, applicationId: number) {
+    const edit=1;
     // Open the JobDetailsComponent in a dialog and pass both jobPostId and applicationId
     const dialogRef = this._dialog.open(JobDetailsComponent, {
       data: { 
         jobPostId, 
         applicationId, 
+        edit: edit,  // <-- Ajouté proprement ici
         closeDialog: () => dialogRef.close() 
       }
     });
@@ -86,7 +88,13 @@ export class MyApplicationsComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error deleting application:', err);
-          this._coreService.openSnackBar('Failed to delete application', 'error');
+
+          if (err.status === 200) {  
+            this._coreService.openSnackBar('Application deleted successfully', 'success');
+            this.applications = this.applications.filter(app => app.id !== jobId);
+          } else {
+            this._coreService.openSnackBar('Failed to delete application', 'error');
+          }
         }
       });
     });

@@ -23,10 +23,16 @@ export class JobDetailsComponent implements OnInit {
   application: any = { coverLetter: '', cvFile: null };
 
   applyForm!: FormGroup;
+  edit: number = 0;
+  hasApplication: boolean = false;  // New property to track if the user has already applied.
+
+
+
 
   constructor(
     private route: ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public data: { jobPostId: number; applicationId: number, closeDialog: () => void },
+    @Inject(MAT_DIALOG_DATA) public data: { jobPostId: number; applicationId: number,  edit: number; // <-- ajoute edit ici
+      closeDialog: () => void },
     private jobPostService: JobPostService,
     private applicationService: ApplicationService,
     private fb: FormBuilder,
@@ -52,6 +58,9 @@ export class JobDetailsComponent implements OnInit {
       this.applicationId = this.data.applicationId;
       this.loadApplicationDetails();
     }
+    if (this.data && this.data.edit !== undefined) {
+      this.edit = this.data.edit;
+    }
 
     this.initializeForm();
   }
@@ -69,7 +78,7 @@ export class JobDetailsComponent implements OnInit {
   initializeForm() {
     this.applyForm = this.fb.group({
       coverLetter: ['', Validators.required],
-      cvFile: [null]
+      cvFile: [null, Validators.required],     // Validation du fichier
     });
   }
 
@@ -82,6 +91,25 @@ export class JobDetailsComponent implements OnInit {
           location: data.location,
           requirements: data.requirements,
         });
+        if (this.edit != 1) {
+          // Vérifier que candidateId et jobPostId ne sont pas null
+          if (this.candidateId != null && this.jobPostId != null) {
+            this.applicationService.checkIfAlreadyApplied(this.candidateId, this.jobPostId).subscribe(
+              (applications) => {
+                if (applications && applications.length > 0) {
+                  this.hasApplication = true; // Déjà postulé
+                } else {
+                  this.hasApplication = false; // Pas encore postulé
+                }
+                console.log('hasApplication:', this.hasApplication);
+              },
+              (error) => {
+                console.error('Erreur lors de la vérification de la candidature:', error);
+              }
+            );
+          }
+        }
+  
       },
       (error) => {
         console.error('Error loading job details:', error);
@@ -107,6 +135,9 @@ export class JobDetailsComponent implements OnInit {
         } else {
           console.warn('No CV file found in application data.');
         }
+        if(this.edit !=1){
+          this.hasApplication = true;
+          }
       },
       (error) => {
         console.error('Error loading application details:', error);
@@ -122,10 +153,12 @@ export class JobDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.applyForm.invalid) {
-      console.error('Form is invalid');
-      return;
-    }
+ if (this.applyForm.invalid) {
+  this._coreService.openSnackBar('Veuillez remplir tous les champs obligatoires.', 'error');
+  this.applyForm.markAllAsTouched(); // 🔥 pour que les erreurs s'affichent sur les champs invalides
+  return;
+}
+
   
     const updatedCoverLetter = this.applyForm.value.coverLetter;
   

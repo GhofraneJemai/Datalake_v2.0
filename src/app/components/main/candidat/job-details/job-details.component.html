@@ -33,6 +33,9 @@
           [(ngModel)]="application.coverLetter"
           placeholder="Enter cover letter"
         ></textarea>
+        <div *ngIf="applyForm.get('coverLetter')?.invalid && applyForm.get('coverLetter')?.touched" style="color:red;">
+          La lettre de motivation est obligatoire.
+        </div>
       </div>
 
       <!-- Upload CV -->
@@ -45,7 +48,10 @@
           class="form-control"
           [disabled]="application.cvFile"
         />
-        <div>
+        <div *ngIf="applyForm.get('cvFile')?.invalid && applyForm.get('cvFile')?.touched" style="color:red;">
+          Le CV est requis.
+        </div>
+        <div *ngIf="edit == 1">
           <strong>Current CV:</strong>
           <p>{{ cvFileUrl }}</p>
         </div>
@@ -62,7 +68,7 @@
     >
       Annuler
     </button>
-    <button type="submit" class="btn btn-primary" style="background-color: #1976d2; color: white;">
+    <button  [disabled]="hasApplication" type="submit" class="btn btn-primary" style="background-color: #1976d2; color: white;">
       Apply
     </button>
   </div>

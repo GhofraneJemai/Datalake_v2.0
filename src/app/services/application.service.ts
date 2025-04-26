@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Application } from '../interfaces/application.model';
 
 
@@ -99,4 +99,11 @@ export class ApplicationService {
   
     return this.http.put(`${this.apiUrl}/update/${id}`, formData);
   }
+  checkIfAlreadyApplied(candidateId: number, jobPostId: number) {
+    return this.http.get<any[]>(`http://localhost:8090/datalake/api/applications/by-candidate?candidateId=${candidateId}`)
+      .pipe(
+        map(applications => applications.filter(app => app.jobPost && app.jobPost.id === jobPostId))
+      );
+  }
+  
 }
