@@ -156,7 +156,8 @@ export class JobApplicationsComponent implements OnInit {
          // Trims milliseconds and 'Z'
         console.log(`Updating APPROVED status with formatted date: ${formattedDate}`);
         this.applicationService
-          .updateApplicationStatus(application.id, application.status, formattedDate)
+          .updateApplicationStatus(application.id, application.status, formattedDate, application.jobPost.title // Envoi du nom de l'offre
+          )
           .subscribe(
             (response) => {
               console.log('Status updated successfully:', response);
@@ -180,7 +181,7 @@ export class JobApplicationsComponent implements OnInit {
       
       console.log(`Updating status: ${application.status} without recruitment date.`);
       this.applicationService
-        .updateApplicationStatus(application.id, application.status, '')
+        .updateApplicationStatus(application.id, application.status, '',application.jobPost.title)
         .subscribe(
           (response) => {
             console.log('Status updated successfully:', response);

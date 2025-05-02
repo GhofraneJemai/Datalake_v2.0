@@ -102,7 +102,7 @@ export class JobPostComponent implements OnInit {
   }
   
 
-  openEditForm(data: any) {
+/*   openEditForm(data: any) {
     const dialogRef = this._dialog.open(JobPostAddEditComponent, {
       data,
     });
@@ -114,7 +114,28 @@ export class JobPostComponent implements OnInit {
         }
       },
     });
-  }
+  } */
+    openEditForm(data: any) {
+      const dialogRef = this._dialog.open(JobPostAddEditComponent, {
+        data,
+      });
+    
+      dialogRef.afterClosed().subscribe({
+        next: (updatedData) => {
+          if (updatedData) {
+            const index = this.dataSource.data.findIndex(job => job.id === updatedData.id);
+            if (index !== -1) {
+              // Met à jour uniquement l'élément modifié
+              this.dataSource.data[index] = updatedData;
+    
+              // Force Angular à détecter le changement
+              this.dataSource.data = [...this.dataSource.data];
+            }
+          }
+        }
+      });
+    }
+    
   onLogout() {
     this.authService.logout();
   }

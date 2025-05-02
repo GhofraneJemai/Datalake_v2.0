@@ -33,21 +33,26 @@ export class JobPostAddEditComponent {
       this.jobPostForm.patchValue(this.data);
     }
   }
-
   onFormSubmit() {
     if (this.jobPostForm.valid) {
       if (this.data) {
-        this._coreService.openSnackBar('Job post updated successfully!', 'success');
+        // Cas : mise à jour d'une offre existante
         this.jobPostService.updateJobPost(this.data.id, this.jobPostForm.value).subscribe(() => {
-          this.dialogRef.close(true);
+          this._coreService.openSnackBar('Offre mise à jour avec succès !', 'success');
+          this.dialogRef.close({ ...this.data, ...this.jobPostForm.value });
+        }, () => {
+          this._coreService.openSnackBar('Erreur lors de la mise à jour de l\'offre', 'error');
         });
       } else {
-        this._coreService.openSnackBar('Error updating job post', 'error');
+        // Cas : ajout d'une nouvelle offre
         this.jobPostService.addJobPost(this.jobPostForm.value).subscribe(() => {
+          this._coreService.openSnackBar('Offre ajoutée avec succès !', 'success');
           this.dialogRef.close(true);
+        }, () => {
+          this._coreService.openSnackBar('Erreur lors de l\'ajout de l\'offre', 'error');
         });
       }
     }
   }
-
+  
 }

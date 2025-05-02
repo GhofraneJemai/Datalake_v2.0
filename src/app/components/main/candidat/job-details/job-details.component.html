@@ -42,12 +42,12 @@
       <div class="mb-3">
         <strong>Upload CV:</strong>
         <input
-          type="file"
-          (change)="onFileChange($event)"
-          id="cvFile"
-          class="form-control"
-          [disabled]="application.cvFile"
-        />
+        type="file"
+        (change)="onFileChange($event)"
+        id="cvFile"
+        class="form-control"
+        [disabled]="application.cvFile"
+      />
         <div *ngIf="applyForm.get('cvFile')?.invalid && applyForm.get('cvFile')?.touched" style="color:red;">
           Le CV est requis.
         </div>

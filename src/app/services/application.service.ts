@@ -50,18 +50,22 @@ export class ApplicationService {
   }
 
   // Method to update application status
-  updateApplicationStatus(id: number, status: string, recruitmentDate: string | null): Observable<Application> {
+  updateApplicationStatus(id: number, status: string, recruitmentDate: string | null ,   offerName: string
+  ): Observable<Application> {
     const url = `${this.apiUrl}/${id}/status`;
   
     // Only include recruitmentDate in the params if the status is APPROVED
-    const params: { status: string; recruitmentDate?: string } = {
+    const params: { status: string; recruitmentDate?: string; offerName?: string } = {
       status: status,
     };
+  
   
     // If status is APPROVED and recruitmentDate is provided, include it
     if (status === 'APPROVED' && recruitmentDate) {
       params.recruitmentDate = recruitmentDate;
     }
+    params.offerName = offerName;
+
   
     return this.http.put<Application>(url, null, { params });  // Sending null body as parameters are in the query
   }

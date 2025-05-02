@@ -145,12 +145,43 @@ export class JobDetailsComponent implements OnInit {
     );
   }
 
-  onFileChange(event: Event) {
+ /*  onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input?.files && input.files.length > 0) {
       this.cvFile = input.files[0];
     }
-  }
+    
+  } */
+    onFileChange(event: Event): void {
+      const input = event.target as HTMLInputElement;
+    
+      if (input?.files && input.files.length > 0) {
+        const file = input.files[0];
+        this.cvFile = file;
+    
+        // Mise à jour du champ dans le formulaire
+        this.applyForm.patchValue({
+          cvFile: file
+        });
+    
+        // Marquer le champ comme touché et forcer la validation
+        this.applyForm.get('cvFile')?.markAsTouched();
+        this.applyForm.get('cvFile')?.updateValueAndValidity();
+    
+        console.log("Fichier CV sélectionné :", file.name);
+      } else {
+        // Aucun fichier sélectionné
+        this.cvFile = null;
+        this.applyForm.patchValue({
+          cvFile: null
+        });
+        this.applyForm.get('cvFile')?.markAsTouched();
+        this.applyForm.get('cvFile')?.updateValueAndValidity();
+    
+        console.log("Aucun fichier sélectionné.");
+      }
+    }
+    
 
   onSubmit() {
  if (this.applyForm.invalid) {
